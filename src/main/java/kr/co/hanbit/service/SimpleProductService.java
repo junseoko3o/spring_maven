@@ -1,22 +1,26 @@
 package kr.co.hanbit.service;
 
+import kr.co.hanbit.dto.ProductDto;
 import kr.co.hanbit.model.Product;
 import kr.co.hanbit.repository.ListProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SimpleProductService {
-    private ListProductRepository listProductRepository;
-
+    private final ListProductRepository listProductRepository;
+    private final ModelMapper modelMapper;
     @Autowired
-    SimpleProductService(ListProductRepository listProductRepository) {
+    SimpleProductService(ListProductRepository listProductRepository, ModelMapper modelMapper) {
         this.listProductRepository = listProductRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public Product add(Product product) {
+    public ProductDto add(ProductDto productDto) {
+        Product product = modelMapper.map(productDto, Product.class);
         Product savedProduct = listProductRepository.add(product);
-        return savedProduct;
+        return modelMapper.map(savedProduct, ProductDto.class);
     }
 
 }
