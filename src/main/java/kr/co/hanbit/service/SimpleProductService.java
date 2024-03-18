@@ -23,4 +23,9 @@ public class SimpleProductService {
         return modelMapper.map(savedProduct, ProductDto.class);
     }
 
+    public ProductDto findById(Long id) {
+        Product product = listProductRepository.findById(id);
+        return modelMapper.map(product, ProductDto.class);
+    }
+
 }

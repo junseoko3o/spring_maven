@@ -12,8 +12,14 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ListProductRepository {
     private final List<Product> products = new CopyOnWriteArrayList<>();
     // 멀티쓰레드 환경때문에 스레드세이프한 컬렉션을 사용해야함.
-    private final AtomicLong sequence = new AtomicLong();
+    private final AtomicLong sequence = new AtomicLong(1L);
 
+    public Product findById(Long id) {
+        return products.stream()
+                .filter(product -> product.sameId(id))
+                .findFirst()
+                .orElseThrow();
+    }
     public Product add(Product product) {
         product.setId(sequence.getAndAdd(1L));
         products.add(product);

@@ -26,4 +26,8 @@ public class Product {
     }
 
     private Integer amount;
+
+    public Boolean sameId(Long id) {
+        return this.id.equals(id);
+    }
 }
