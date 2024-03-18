@@ -36,5 +36,11 @@ public class SimpleProductService {
         Product product = listProductRepository.findById(id);
         return modelMapper.map(product, ProductDto.class);
     }
+    public List<ProductDto> findByNameContaining(String name) {
+        List<Product> products = listProductRepository.findByNameContaining(name);
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDto.class))
+                .toList();
+    }
 
 }

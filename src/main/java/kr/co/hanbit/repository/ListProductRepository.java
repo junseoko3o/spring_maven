@@ -32,4 +32,10 @@ public class ListProductRepository {
     public List<Product> getAllProducts() {
         return Collections.unmodifiableList(products);
     }
+
+    public List<Product> findByNameContaining(String name) {
+        return products.stream()
+                .filter(product -> product.containsName(name))
+                .toList();
+    }
 }
