@@ -20,6 +20,10 @@ public class ListProductRepository {
                 .findFirst()
                 .orElseThrow();
     }
+
+    public List<Product> findAll() {
+        return products;
+    }
     public Product add(Product product) {
         product.setId(sequence.getAndAdd(1L));
         products.add(product);

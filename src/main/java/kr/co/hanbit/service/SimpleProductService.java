@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SimpleProductService {
     private final ListProductRepository listProductRepository;
@@ -15,6 +17,13 @@ public class SimpleProductService {
     SimpleProductService(ListProductRepository listProductRepository, ModelMapper modelMapper) {
         this.listProductRepository = listProductRepository;
         this.modelMapper = modelMapper;
+    }
+
+    public List<ProductDto> findAll() {
+        List<Product> products = listProductRepository.findAll();
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDto.class))
+                .toList();
     }
 
     public ProductDto add(ProductDto productDto) {
