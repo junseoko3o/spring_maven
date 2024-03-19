@@ -2,6 +2,7 @@ package kr.co.hanbit.repository;
 
 import kr.co.hanbit.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -16,7 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class DatabaseProductRepository {
+@Profile("prod") // 지정하면 특정 환경에서 특정 클래스의 빈이 생성되도록 해줌.
+public class DatabaseProductRepository implements ProductRepository {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     @Autowired
