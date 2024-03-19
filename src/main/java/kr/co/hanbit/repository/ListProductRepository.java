@@ -1,5 +1,6 @@
 package kr.co.hanbit.repository;
 
+import kr.co.hanbit.common.EntityNotFoundException;
 import kr.co.hanbit.model.Product;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ public class ListProductRepository {
         return products.stream()
                 .filter(product -> product.sameId(id))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new EntityNotFoundException("Product Not Found"));
     }
     public List<Product> findAll() {
         return products;
@@ -38,7 +39,7 @@ public class ListProductRepository {
                 .toList();
     }
     public Product update(Product product) {
-        Integer indexToModify = products.indexOf(product);
+        int indexToModify = products.indexOf(product);
         products.set(indexToModify, product);
         return product;
     }
