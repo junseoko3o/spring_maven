@@ -25,7 +25,6 @@ public class SimpleProductService {
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .toList();
     }
-
     public ProductDto add(ProductDto productDto) {
         Product product = modelMapper.map(productDto, Product.class);
         Product savedProduct = listProductRepository.add(product);
@@ -42,5 +41,12 @@ public class SimpleProductService {
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .toList();
     }
-
+    public ProductDto update(ProductDto productDto) {
+        Product product = modelMapper.map(productDto, Product.class);
+        Product updateProduct = listProductRepository.update(product);
+        return modelMapper.map(updateProduct, ProductDto.class);
+    }
+    public void delete(Long id) {
+        listProductRepository.delete(id);
+    }
 }

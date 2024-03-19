@@ -20,7 +20,6 @@ public class ListProductRepository {
                 .findFirst()
                 .orElseThrow();
     }
-
     public List<Product> findAll() {
         return products;
     }
@@ -37,5 +36,15 @@ public class ListProductRepository {
         return products.stream()
                 .filter(product -> product.containsName(name))
                 .toList();
+    }
+    public Product update(Product product) {
+        Integer indexToModify = products.indexOf(product);
+        products.set(indexToModify, product);
+        return product;
+    }
+
+    public void delete(Long id) {
+        Product product = this.findById(id);
+        products.remove(product);
     }
 }
