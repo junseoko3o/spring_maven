@@ -13,10 +13,12 @@ import java.util.List;
 public class SimpleProductService {
     private final ListProductRepository listProductRepository;
     private final ModelMapper modelMapper;
+    private final ValidationService validationService;
     @Autowired
-    SimpleProductService(ListProductRepository listProductRepository, ModelMapper modelMapper) {
+    SimpleProductService(ListProductRepository listProductRepository, ModelMapper modelMapper, ValidationService validationService) {
         this.listProductRepository = listProductRepository;
         this.modelMapper = modelMapper;
+        this.validationService = validationService;
     }
 
     public List<ProductDto> findAll() {
@@ -27,6 +29,7 @@ public class SimpleProductService {
     }
     public ProductDto add(ProductDto productDto) {
         Product product = modelMapper.map(productDto, Product.class);
+        validationService.checkValid(product);
         Product savedProduct = listProductRepository.add(product);
         return modelMapper.map(savedProduct, ProductDto.class);
     }
