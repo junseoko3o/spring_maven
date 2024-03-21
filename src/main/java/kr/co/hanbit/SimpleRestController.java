@@ -15,7 +15,8 @@ public class SimpleRestController {
 
     @RequestMapping("/article")
     public String createArticle(@RequestParam("title") String title, @RequestParam("content") String content) {
-        return String.format("title=%s / content=%s", title, content);
+        String format = String.format("title=%s / content=%s", title, content);
+        return format;
     }
 
 }

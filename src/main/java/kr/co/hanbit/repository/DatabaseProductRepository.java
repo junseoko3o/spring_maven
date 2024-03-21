@@ -1,8 +1,10 @@
 package kr.co.hanbit.repository;
 
+import kr.co.hanbit.common.EntityNotFoundException;
 import kr.co.hanbit.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -38,11 +40,16 @@ public class DatabaseProductRepository implements ProductRepository {
     }
     public Product findById(Long id) {
         SqlParameterSource namedParameter = new MapSqlParameterSource("id", id);
-        Product product = namedParameterJdbcTemplate.queryForObject(
-                "SELECT id, name, price, amount FROM products WHERE id =:id",
-                namedParameter,
-                new BeanPropertyRowMapper<>(Product.class)
-        );
+        Product product = null;
+        try {
+            product = namedParameterJdbcTemplate.queryForObject(
+                    "SELECT id, name, price, amount FROM products WHERE id =:id",
+                    namedParameter,
+                    new BeanPropertyRowMapper<>(Product.class)
+            );
+        } catch (EmptyResultDataAccessException exception) {
+            throw new EntityNotFoundException("Product not found");
+        }
         return product;
     }
     public List<Product> findAll() {
